@@ -1,5 +1,3 @@
-const option =["Please Select", "Employed full-time", "Employed part-time", "Unemployed", "Retired", "Full-time student", "Full-time homemaker or carer"]
-
 class Helper {
     buttonClick(button){
         cy.get('button').contains(button).click()
@@ -71,28 +69,30 @@ class Helper {
         cy.get('[data-testid="select-dropdown"]').select(i)
         }
     }
-    OptionEmploymentStatus(numberOfElements){
-        //let chosenOption = cy.get('[data-testid="select-dropdown"]')
-        for(let i=1; i< numberOfElements; i++){
-            cy.get('[data-testid="select-dropdown"]').select(i)
-                // cy.log(chosenOption)
-                if(cy.get('[data-testid="select-dropdown"]').select(i)=== "Employed full-time" || "Employed part-time"){
-                    cy.get('button').contains("Continue").click()
-                    cy.get('.emotion-nr7joz').should("have.text", "Question 15/20")
-                    }
-
-                    else{
-                        console.log('test1')
-                // else(chosenOption == "Unemployed" || "Retired" || "Full-time student" || "Full-time homemaker or carer");{
-                    cy.get('button').contains("Continue").click()
-                    cy.get('.emotion-nr7joz').should("have.text", "Question 19/20")
-                    }
-                    cy.go('back')
-                    cy.wait(1000)
-                    // cy.get('[data-testid="select-dropdown"]').should('have.text','Employed full-time')
+    OptionEmploymentStatus(){  
+        cy.get('[data-testid="select-dropdown"] option').each(($el)=>{
+            let optionText = $el.text()
+            cy.get('[data-testid="select-dropdown"]').select(optionText).then(()=>{
+            if(optionText === "Please Select"){
+               cy.get('button').contains("Continue").should('be.disabled');
             }
-            
-            
+            if (optionText === "Employed full-time" || optionText === "Employed part-time") {
+                cy.get('button').contains("Continue").click();
+                cy.get('.emotion-nr7joz').should("have.text", "Question 15/20");
+                cy.go('back')
+              } else if (
+                optionText === "Unemployed" ||
+                optionText === "Retired" ||
+                optionText === "Full-time student" ||
+                optionText === "Full-time homemaker or carer"
+              ) {
+                cy.get('button').contains("Continue").click()
+                cy.get('.emotion-nr7joz').should("have.text", "Question 19/20")
+                cy.go('back')
+            }
+
+        })
+    })
     }
 
 }

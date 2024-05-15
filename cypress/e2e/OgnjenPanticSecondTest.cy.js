@@ -1,15 +1,6 @@
 import Helper from "../support/helper"
 const helper = new Helper()
 
-// const firstQuestionRadioButton = ['Not at all', 'A little', 'Somewhat', 'Much', 'Very much']
-// const secondQuestionDropDown = ['Please Select', '0 nights', '1 night', '2 nights', '3 nights', '4 nights', '5 nights', '6 nights', '7 nights']
-// const thirdQuestionRadioButton = ['Yes, my problem would persist', 'No']
-// const fourthQuestionRadioButton = ['Worries about future events', 'Worries about not sleeping', 'Bodily discomfort or pain', 'Noise', 'Light levels']
-// const fifthQuestionDropDown = ['Please Select', "I don't have a problem", 'A week or less', '2-4 weeks', '1-2 months', '3-6 months', '7-12 months', '1-2 years', '3-5 years', '6-10 years' , '11 or more years']
-// const sixthQuestionCheckBox = ['Fall asleep more easily', 'Sleep through the night without waking up', 'Stop waking up too early', 'Wake up feeling refreshed', 'None of the above']
-// const seventhQuestionCheckBox = ['Dealing with jet lag', 'Shift work and sleep', 'Managing your sleep as a parent', 'Pregnancy and sleep', 'None of the above']
-// const eighthQuestionRadioButton = ['Male', 'Female', 'In another way', 'Prefer not to say']
-
 describe('First test', () =>{
     beforeEach(()=>{
         //navigate to the ladning page
@@ -20,7 +11,7 @@ describe('First test', () =>{
         cy.url().should('include', 'valmont/356#2/1') 
     })
 
-    it('From first to the last page',() =>{
+    it.only('From first to the last page',() =>{
       //FirstPage
       cy.contains('Continue').should('be.disabled')
       cy.fixture('example.json').then(question=> helper.SingleSelect(question.answers.Q1, 5))
@@ -170,15 +161,17 @@ describe('First test', () =>{
       cy.get('.emotion-nr7joz').should("have.text", "Question 13/20")
       cy.fixture('example.json').then(question=> helper.SingleSelect(question.answersTwo.Q5, 3))
       helper.buttonClick('Continue')
+
+      cy.get('.emotion-nr7joz').should("have.text", "Question 14/20")
+      helper.OptionEmploymentStatus()
     })
 
-    it.only('test', () => {
+    it('test', () => {
       cy.visit("https://onboarding.qa.sleepio.com/sleepio/valmont/356#9/1")
 
       cy.get('.emotion-nr7joz').should("have.text", "Question 14/20")
       // cy.fixture('example.json').then(question=> helper.DropDownOption(question.answersTwo.Q6, 3))
-      helper.OptionEmploymentStatus(6)
-
+      helper.OptionEmploymentStatus()
     })
     // let allanswers = Cypress._.map($elements, 'innerText')
 
